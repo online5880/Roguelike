@@ -26,6 +26,11 @@ void URLCharacterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	FVector Velocity = Character->GetVelocity();
 	Velocity.Z = 0;
 	Speed  = Velocity.Size();
+
+	if(bIsAccelerating)
+	{
+		SpeedWhenStopping = Speed;
+	}
 	
 	bIsInAir = Character->GetCharacterMovement()->IsFalling();
 	bIsAccelerating = Character->GetCharacterMovement()->GetCurrentAcceleration().Size() > 0.f ? true : false;
