@@ -5,6 +5,7 @@
 #include "RLCharacter.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Roguelike/Components/CombatComponent.h"
 
 void URLCharacterAnimInstance::NativeInitializeAnimation()
 {
@@ -34,6 +35,7 @@ void URLCharacterAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 	
 	bIsInAir = Character->GetCharacterMovement()->IsFalling();
 	bIsAccelerating = Character->GetCharacterMovement()->GetCurrentAcceleration().Size() > 0.f ? true : false;
+	WeaponType = Character->GetCombatComponent()->GetWeaponType();
 
 	Lean(DeltaSeconds);
 }

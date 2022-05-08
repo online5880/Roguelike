@@ -3,9 +3,11 @@
 
 #include "RLCharacter.h"
 
+#include "RLPlayerController.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Roguelike/Components/CombatComponent.h"
 
 // Sets default values
 ARLCharacter::ARLCharacter()
@@ -23,6 +25,8 @@ ARLCharacter::ARLCharacter()
 
 	bUseControllerRotationYaw = false;
 	GetCharacterMovement()->bOrientRotationToMovement = true;
+
+	CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("Combat Component"));
 }
 
 void ARLCharacter::Tick(float DeltaTime)
@@ -31,10 +35,18 @@ void ARLCharacter::Tick(float DeltaTime)
 
 }
 
+void ARLCharacter::PostInitializeComponents()
+{
+	Super::PostInitializeComponents();
+	if(CombatComponent)
+	{
+		CombatComponent->Character = this;
+	}
+}
+
 void ARLCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 

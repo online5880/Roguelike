@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "Roguelike/Enum/CharacterWeaponType.h"
 #include "RLCharacterAnimInstance.generated.h"
 
 /**
@@ -50,4 +51,7 @@ private:
 	// ? 캐릭터 회전값 (현재,마지막)
 	FRotator CharacterRotation;
 	FRotator CharacterRotationLastFrame;
+
+	// * 무기 타입
+	ECharacterWeaponType WeaponType;
 };
