@@ -3,10 +3,12 @@
 
 #include "RLCharacter.h"
 
+#include "RLCharacterAnimInstance.h"
 #include "RLPlayerController.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
 #include "Roguelike/Components/CombatComponent.h"
 
 // Sets default values
@@ -41,6 +43,8 @@ void ARLCharacter::PostInitializeComponents()
 	if(CombatComponent)
 	{
 		CombatComponent->Character = this;
+		CombatComponent->AnimInstance = Cast<URLCharacterAnimInstance>(GetMesh()->GetAnimInstance());
+		CombatComponent->Controller = Cast<ARLPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(),0));
 	}
 }
 

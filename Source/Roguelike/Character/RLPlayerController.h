@@ -23,7 +23,11 @@ protected:
 	void Turn(float Value);
 	void LookUp(float Value);
 
+	// ! 공격 - Using combat component
 	void Attack();
+
+	// ! 구르기
+	void Dodge();
 
 private:
 

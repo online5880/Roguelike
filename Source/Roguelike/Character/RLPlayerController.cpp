@@ -16,6 +16,7 @@ void ARLPlayerController::SetupInputComponent()
 	InputComponent->BindAxis(TEXT("LookUp"),this,&ARLPlayerController::LookUp);
 
 	InputComponent->BindAction(FName("Attack"),IE_Pressed,this,&ARLPlayerController::Attack);
+	InputComponent->BindAction(FName("Dodge"),IE_Pressed,this,&ARLPlayerController::Dodge);
 }
 
 void ARLPlayerController::BeginPlay()
@@ -72,6 +73,18 @@ void ARLPlayerController::Attack()
 			{
 				Combat->Attack();
 			}
+		}
+	}
+}
+
+void ARLPlayerController::Dodge()
+{
+	if(RLCharacter)
+	{
+		UCombatComponent* Combat = Cast<UCombatComponent>(RLCharacter->GetCombatComponent());
+		if(Combat)
+		{
+			Combat->Dodge();
 		}
 	}
 }
