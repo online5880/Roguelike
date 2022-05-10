@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Roguelike/Enum/CharacterMovementType.h"
 #include "Roguelike/Enum/CharacterWeaponType.h"
 #include "CombatComponent.generated.h"
 
@@ -34,6 +35,11 @@ protected:
 
 	// ! Katana 공격
 	void KatanaAttack();
+
+	// * Dodge Montage 실행
+	void PlayDodgeMontage(ECharacterDirectionType Type);
+
+	FVector DodgeTargetLocation();
 	
 private:
 
@@ -63,6 +69,15 @@ private:
 	UPROPERTY()
 	UAnimMontage* CurrentMontage;
 
+	// * 구르는 중인가?
+	bool bIsDodge;
+
+	// * Dodge Montage Map
+	UPROPERTY(EditAnywhere,Category = "Montage|Dodge")
+	TMap<ECharacterDirectionType, UAnimMontage*> DodgeMap;
+
+	// * Character Direction Type
+	ECharacterDirectionType DirectionType;
 
 public:
 	// * 무기 타입 Getter

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Animation/AnimInstance.h"
+#include "Roguelike/Enum/CharacterMovementType.h"
 #include "Roguelike/Enum/CharacterWeaponType.h"
 #include "RLCharacterAnimInstance.generated.h"
 
@@ -54,4 +55,7 @@ private:
 
 	// * 무기 타입
 	ECharacterWeaponType WeaponType;
+
+	// * 움직임 타입
+	ECharacterMovementType MovementType;
 };
