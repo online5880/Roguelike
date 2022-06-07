@@ -37,10 +37,12 @@ protected:
 	void KatanaAttack();
 
 	// * Dodge Montage 실행
-	void PlayDodgeMontage(ECharacterDirectionType Type);
-
-	FVector DodgeTargetLocation();
+	void PlayDodgeMontage(const FName& DodgeName);
 	
+	void DodgeMotionWarping() const;
+
+	void DodgeEnded(UAnimMontage*, bool);
+
 private:
 
 	// * 캐릭터 포인터
@@ -55,7 +57,12 @@ private:
 	UPROPERTY()
 	class ARLPlayerController* Controller;
 
+	// * 캐릭터 무브먼트 타입
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	ECharacterMovementType MovementType;
+
 	// * 무기 타입
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	ECharacterWeaponType WeaponType;
 
 	// * Katana Montage Map
@@ -66,7 +73,7 @@ private:
 	int32 ComboCount;
 
 	// * 현재 Montage Ref
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* CurrentMontage;
 
 	// * 구르는 중인가?
@@ -74,10 +81,10 @@ private:
 
 	// * Dodge Montage Map
 	UPROPERTY(EditAnywhere,Category = "Montage|Dodge")
-	TMap<ECharacterDirectionType, UAnimMontage*> DodgeMap;
-
-	// * Character Direction Type
-	ECharacterDirectionType DirectionType;
+	TMap<FName, UAnimMontage*> DodgeMap;
+	
+	UPROPERTY(EditAnywhere,Category = "Dodge")
+	float DodgeDistance;
 
 public:
 	// * 무기 타입 Getter

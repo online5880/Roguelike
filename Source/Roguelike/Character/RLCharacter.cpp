@@ -10,6 +10,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Roguelike/Components/CombatComponent.h"
+#include "MotionWarpingComponent.h"
 
 // Sets default values
 ARLCharacter::ARLCharacter()
@@ -29,6 +30,8 @@ ARLCharacter::ARLCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
 	CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("Combat Component"));
+
+	MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("MotionWarpingComponent"));
 }
 
 void ARLCharacter::Tick(float DeltaTime)

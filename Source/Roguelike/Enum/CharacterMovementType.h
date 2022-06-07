@@ -11,7 +11,7 @@ enum class ECharacterMovementType : uint8
 	ECMT_DefaultMAX UMETA(DisplayName = "DefaultMAX")
 };
 
-UENUM(BlueprintType)
+/*UENUM(BlueprintType)
 enum class ECharacterDirectionType : uint8
 {
 	ECDT_Forward UMETA(DisplayName = "Forward"),
@@ -20,4 +20,4 @@ enum class ECharacterDirectionType : uint8
 	ECDT_Right UMETA(DisplayName = "Right"),
 	
 	ECDT_DefaultMAX UMETA(DisplayName = "DefaultMAX")
-};
+};*/

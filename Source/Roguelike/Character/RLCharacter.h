@@ -29,11 +29,16 @@ private:
 	class UCameraComponent* FollowCamera;
 
 	// * Combat Component
-	UPROPERTY(VisibleAnywhere, Category = Combat)
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
 	class UCombatComponent* CombatComponent;
+
+	UPROPERTY(VisibleAnywhere, Category = Combat)
+	class UMotionWarpingComponent* MotionWarpingComponent;
 
 public:
 	// * Combat Component Getter
 	FORCEINLINE UCombatComponent* GetCombatComponent() const {return CombatComponent;}
+
+	FORCEINLINE UMotionWarpingComponent* GetMotionWarpingComponent() const {return MotionWarpingComponent;}
 
 };

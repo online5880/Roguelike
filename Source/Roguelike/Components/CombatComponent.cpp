@@ -3,19 +3,23 @@
 
 #include "CombatComponent.h"
 
+#include "MotionWarpingComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Roguelike/Character/RLCharacter.h"
 #include "Roguelike/Character/RLCharacterAnimInstance.h"
-#include "Roguelike/Character/RLPlayerController.h"
 
-// Sets default values for this component's properties
-UCombatComponent::UCombatComponent()
+UCombatComponent::UCombatComponent() :
+	Character(nullptr),
+	AnimInstance(nullptr),
+	Controller(nullptr),
+	MovementType(ECharacterMovementType::ECMT_Idle),
+	WeaponType(ECharacterWeaponType::ECWT_Katana),
+	ComboCount(0),
+	CurrentMontage(nullptr),
+	bIsDodge(false),
+	DodgeDistance(500.f)
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	WeaponType = ECharacterWeaponType::ECWT_Katana;
 }
 
 // Called when the game starts
@@ -33,6 +37,7 @@ void UCombatComponent::BeginPlay()
 void UCombatComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	
 }
 
 void UCombatComponent::ComboNotifyBegin(FName NotifyName,
@@ -45,7 +50,7 @@ void UCombatComponent::ComboNotifyBegin(FName NotifyName,
 		ComboCount--;
 		if(ComboCount < 0 && CurrentMontage)
 		{
-			AnimInstance->Montage_Stop(0.25f,(CurrentMontage));
+			AnimInstance->Montage_Stop(0.33f,(CurrentMontage));
 			ComboCount = 0;
 			CurrentMontage = nullptr;
 		}
@@ -93,57 +98,60 @@ void UCombatComponent::KatanaAttack()
 
 void UCombatComponent::Dodge()
 {
-	if(Controller != nullptr)
-	{
-		if(Controller->IsInputKeyDown(EKeys::W))
-		{
-			DirectionType = ECharacterDirectionType::ECDT_Forward;
-		}
-		else if(Controller->IsInputKeyDown(EKeys::S))
-		{
-			DirectionType = ECharacterDirectionType::ECDT_Backward;
-		}
-		else if(Controller->IsInputKeyDown(EKeys::A))
-		{
-			DirectionType = ECharacterDirectionType::ECDT_Left;
-		}
-		else if(Controller->IsInputKeyDown(EKeys::D))
-		{
-			DirectionType = ECharacterDirectionType::ECDT_Right;
-		}
-		else return;
-	}
-	PlayDodgeMontage(DirectionType);
+	PlayDodgeMontage("Normal");
 }
 
 
-void UCombatComponent::PlayDodgeMontage(ECharacterDirectionType Type)
+void UCombatComponent::PlayDodgeMontage(const FName& DodgeName)
 {
 	if(AnimInstance == nullptr && Character == nullptr) return;
 
-	if(!AnimInstance->IsAnyMontagePlaying())
+	const bool bCanDodge = (
+		!AnimInstance->IsAnyMontagePlaying() &&
+		MovementType != ECharacterMovementType::ECMT_Dodge);
+
+	if(bCanDodge)
 	{
-		const FRotator Look(UKismetMathLibrary::FindLookAtRotation(
-	Character->GetActorLocation(),DodgeTargetLocation()));
+		FOnMontageEnded MontageEnded;
+		MontageEnded.BindUObject(this,&UCombatComponent::DodgeEnded);
 		
-		const FRotator Rot(Character->GetActorRotation());
-		Character->SetActorRotation(FRotator(0.f,Look.Yaw,0.f));
-		AnimInstance->Montage_Play(DodgeMap.FindRef(ECharacterDirectionType::ECDT_Forward));
+		MovementType = ECharacterMovementType::ECMT_Dodge;
+		DodgeMotionWarping();
+		AnimInstance->Montage_Play(DodgeMap.FindRef(DodgeName));
+		CurrentMontage = DodgeMap.FindRef(DodgeName);
+		AnimInstance->Montage_SetEndDelegate(MontageEnded,CurrentMontage);
 	}
 }
 
-FVector UCombatComponent::DodgeTargetLocation()
+void UCombatComponent::DodgeMotionWarping() const
 {
-	if(Character == nullptr) return FVector::ZeroVector;
+	if(Character == nullptr && Character->GetMotionWarpingComponent() == nullptr) return;
 
-	FVector RotX;
-	if(Character->GetVelocity().Equals(FVector::ZeroVector,0.0001f))
+	const FVector MovementInputVector = Character->GetLastMovementInputVector();
+	const FVector PlayerLoc = Character->GetActorLocation();
+	const FVector TargetLoc = (PlayerLoc + (DodgeDistance * MovementInputVector.GetSafeNormal()));
+	const FRotator TargetRot = UKismetMathLibrary::MakeRotFromX(MovementInputVector);
+
+	if(MovementInputVector.IsZero())
 	{
-		RotX = Character->GetActorRotation().Vector();;		
+		const FVector ForwardLoc = (PlayerLoc + (DodgeDistance * Character->GetActorForwardVector().GetSafeNormal()));
+		const FRotator ForwardRot = UKismetMathLibrary::MakeRotFromX(Character->GetActorForwardVector());
+		Character->GetMotionWarpingComponent()->AddOrUpdateWarpTargetFromLocationAndRotation(
+		"Dodge",
+		ForwardLoc,
+		ForwardRot);
+		return;
 	}
-	else
-	{
-		RotX = Character->GetVelocity();
-	}
-	return Character->GetActorLocation()+(RotX.GetUnsafeNormal()*1.f);
+
+	Character->GetMotionWarpingComponent()->AddOrUpdateWarpTargetFromLocationAndRotation(
+		"Dodge",
+		TargetLoc,
+		TargetRot);
+}
+
+void UCombatComponent::DodgeEnded(UAnimMontage*, bool)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, __FUNCTION__);
+	MovementType = ECharacterMovementType::ECMT_Idle;
+	CurrentMontage = nullptr;
 }
