@@ -38,9 +38,11 @@ protected:
 
 	// * Dodge Montage 실행
 	void PlayDodgeMontage(const FName& DodgeName);
-	
+
+	// * Dodge MotionWarping Update - Location, Rotation
 	void DodgeMotionWarping() const;
 
+	// * Dodge End Event
 	void DodgeEnded(UAnimMontage*, bool);
 
 private:
@@ -82,7 +84,8 @@ private:
 	// * Dodge Montage Map
 	UPROPERTY(EditAnywhere,Category = "Montage|Dodge")
 	TMap<FName, UAnimMontage*> DodgeMap;
-	
+
+	// * Dodge 거리
 	UPROPERTY(EditAnywhere,Category = "Dodge")
 	float DodgeDistance;
 

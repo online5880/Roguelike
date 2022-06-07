@@ -132,6 +132,7 @@ void UCombatComponent::DodgeMotionWarping() const
 	const FVector TargetLoc = (PlayerLoc + (DodgeDistance * MovementInputVector.GetSafeNormal()));
 	const FRotator TargetRot = UKismetMathLibrary::MakeRotFromX(MovementInputVector);
 
+	// * 안움직일 경우 - 앞으로 구르기
 	if(MovementInputVector.IsZero())
 	{
 		const FVector ForwardLoc = (PlayerLoc + (DodgeDistance * Character->GetActorForwardVector().GetSafeNormal()));

@@ -17,6 +17,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
+
+	// * Component 초기화
 	virtual void PostInitializeComponents() override;
 
 private:
@@ -32,6 +34,7 @@ private:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
 	class UCombatComponent* CombatComponent;
 
+	// * MotionWarping Component
 	UPROPERTY(VisibleAnywhere, Category = Combat)
 	class UMotionWarpingComponent* MotionWarpingComponent;
 
@@ -39,6 +42,7 @@ public:
 	// * Combat Component Getter
 	FORCEINLINE UCombatComponent* GetCombatComponent() const {return CombatComponent;}
 
+	// * MotionWarping Component Getter
 	FORCEINLINE UMotionWarpingComponent* GetMotionWarpingComponent() const {return MotionWarpingComponent;}
 
 };
