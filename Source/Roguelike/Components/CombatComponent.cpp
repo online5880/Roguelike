@@ -1,8 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "CombatComponent.h"
-
 #include "MotionWarpingComponent.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Roguelike/Character/RLCharacter.h"
