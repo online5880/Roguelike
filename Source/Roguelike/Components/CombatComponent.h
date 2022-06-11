@@ -59,7 +59,7 @@ private:
 	UPROPERTY()
 	class ARLPlayerController* Controller;
 
-	// * 캐릭터 무브먼트 타입
+	// * 무브먼트 타입
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	ECharacterMovementType MovementType;
 

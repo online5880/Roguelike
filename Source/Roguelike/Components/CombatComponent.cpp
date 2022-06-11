@@ -53,7 +53,6 @@ void UCombatComponent::ComboNotifyBegin(FName NotifyName,
 	}
 }
 
-
 void UCombatComponent::Attack()
 {
 	switch (WeaponType)
