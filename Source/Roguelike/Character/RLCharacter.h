@@ -38,9 +38,16 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Combat)
 	class UMotionWarpingComponent* MotionWarpingComponent;
 
+	// * Inventory Component
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
+	class UInventoryComponent* InventoryComponent;
+
 public:
 	// * Combat Component Getter
 	FORCEINLINE UCombatComponent* GetCombatComponent() const {return CombatComponent;}
+
+	// * Inventory Component Getter
+	FORCEINLINE UInventoryComponent* GetInventoryComponent() const {return InventoryComponent;}
 
 	// * MotionWarping Component Getter
 	FORCEINLINE UMotionWarpingComponent* GetMotionWarpingComponent() const {return MotionWarpingComponent;}

@@ -11,6 +11,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Roguelike/Components/CombatComponent.h"
 #include "MotionWarpingComponent.h"
+#include "Roguelike/Components/InventoryComponent.h"
 
 // Sets default values
 ARLCharacter::ARLCharacter()
@@ -30,6 +31,7 @@ ARLCharacter::ARLCharacter()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 
 	CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("Combat Component"));
+	InventoryComponent = CreateDefaultSubobject<UInventoryComponent>(TEXT("InventoryComponent"));
 
 	MotionWarpingComponent = CreateDefaultSubobject<UMotionWarpingComponent>(TEXT("MotionWarpingComponent"));
 }

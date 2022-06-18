@@ -29,9 +29,17 @@ protected:
 	// ! 구르기 - Using combat component
 	void Dodge();
 
+	// ! 인벤토리
+	void Inventory();
+
 private:
 
 	UPROPERTY()
 	class ARLCharacter* RLCharacter;
-	
+
+	UPROPERTY()
+	class UCombatComponent* CombatComponent;
+
+	UPROPERTY()
+	class UInventoryComponent* InventoryComponent;
 };

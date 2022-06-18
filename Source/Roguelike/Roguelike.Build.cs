@@ -15,7 +15,8 @@ public class Roguelike : ModuleRules
 			"Engine",
 			"InputCore",
 			"Niagara",
-			"MotionWarping"
+			"MotionWarping",
+			"UMG",
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

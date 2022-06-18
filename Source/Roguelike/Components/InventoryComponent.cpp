@@ -1,5 +1,7 @@
 #include "InventoryComponent.h"
 
+#include "Roguelike/Widget/InventoryWidget.h"
+
 // Sets default values for this component's properties
 UInventoryComponent::UInventoryComponent()
 {
@@ -8,6 +10,19 @@ UInventoryComponent::UInventoryComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+}
+
+void UInventoryComponent::Inventory()
+{
+	bOpenInventory = !bOpenInventory;
+	if(bOpenInventory)
+	{
+		ShowInventory();
+	}
+	else
+	{
+		HideInventory();
+	}
 }
 
 
@@ -27,5 +42,25 @@ void UInventoryComponent::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+}
+
+void UInventoryComponent::ShowInventory()
+{
+	if(InventoryWidgetClass)
+	{
+		InventoryWidget = Cast<UInventoryWidget>(CreateWidget(GetWorld(),InventoryWidgetClass));
+		if(InventoryWidget)
+		{
+			InventoryWidget->AddToViewport();
+		}
+	}
+}
+
+void UInventoryComponent::HideInventory() const
+{
+	if(InventoryWidget)
+	{
+		InventoryWidget->RemoveFromParent();
+	}
 }
 

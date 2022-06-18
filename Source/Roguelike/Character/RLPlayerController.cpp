@@ -5,6 +5,7 @@
 
 #include "RLCharacter.h"
 #include "Roguelike/Components/CombatComponent.h"
+#include "Roguelike/Components/InventoryComponent.h"
 
 void ARLPlayerController::SetupInputComponent()
 {
@@ -17,6 +18,7 @@ void ARLPlayerController::SetupInputComponent()
 
 	InputComponent->BindAction(FName("Attack"),IE_Pressed,this,&ARLPlayerController::Attack);
 	InputComponent->BindAction(FName("Dodge"),IE_Pressed,this,&ARLPlayerController::Dodge);
+	InputComponent->BindAction(FName("Inventory"),IE_Pressed,this,&ARLPlayerController::Inventory);
 }
 
 void ARLPlayerController::BeginPlay()
@@ -81,10 +83,22 @@ void ARLPlayerController::Dodge()
 {
 	if(RLCharacter)
 	{
-		UCombatComponent* Combat = Cast<UCombatComponent>(RLCharacter->GetCombatComponent());
-		if(Combat)
+		CombatComponent = Cast<UCombatComponent>(RLCharacter->GetCombatComponent());
+		if(CombatComponent)
 		{
-			Combat->Dodge();
+			CombatComponent->Dodge();
+		}
+	}
+}
+
+void ARLPlayerController::Inventory()
+{
+	if(RLCharacter)
+	{
+		InventoryComponent = Cast<UInventoryComponent>(RLCharacter->GetInventoryComponent());
+		if(InventoryComponent)
+		{
+			InventoryComponent->Inventory();
 		}
 	}
 }
