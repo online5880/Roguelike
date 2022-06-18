@@ -26,7 +26,7 @@ protected:
 	// ! 공격 - Using combat component
 	void Attack();
 
-	// ! 구르기
+	// ! 구르기 - Using combat component
 	void Dodge();
 
 private:
