@@ -32,14 +32,17 @@ protected:
 	// ! 인벤토리
 	void Inventory();
 
+	// ! 상호작용
+	void Interact();
+
 private:
 
 	UPROPERTY()
-	class ARLCharacter* RLCharacter;
+	TObjectPtr<class ARLCharacter> RLCharacter;
 
 	UPROPERTY()
-	class UCombatComponent* CombatComponent;
+	TObjectPtr<class UCombatComponent> CombatComponent;
 
 	UPROPERTY()
-	class UInventoryComponent* InventoryComponent;
+	TObjectPtr<class UInventoryComponent> InventoryComponent;
 };

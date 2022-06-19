@@ -13,30 +13,38 @@ class ROGUELIKE_API UInventoryComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
 	UInventoryComponent();
 
+	// * 인벤토리 - Controller
 	void Inventory();
 
+	// * 인벤토리 아이템 배열
+	UPROPERTY()
+	TArray<TObjectPtr<class AItem>> Items;
+
 protected:
-	// Called when the game starts
+	
 	virtual void BeginPlay() override;
 
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+	// * 인벤토리 열기
 	void ShowInventory();
 
+	// * 인벤토리 닫기
 	void HideInventory() const;
 
 private:
-	
+
+	// * 인벤토리 클래스
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UInventoryWidget> InventoryWidgetClass;
 
+	// * 인벤토리 위젯
 	UPROPERTY()
-	UInventoryWidget* InventoryWidget;
+	TObjectPtr<UInventoryWidget> InventoryWidget;
 
+	// * 인벤토리(Open/Close)
 	bool bOpenInventory;
-		
+
+public:
+
 };

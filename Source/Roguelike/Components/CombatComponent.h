@@ -49,15 +49,15 @@ private:
 
 	// * 캐릭터 포인터
 	UPROPERTY()
-	ARLCharacter* Character;
+	TObjectPtr<ARLCharacter> Character;
 
 	// * Character AnimInstance
 	UPROPERTY()
-	class URLCharacterAnimInstance* AnimInstance;
+	TObjectPtr<class URLCharacterAnimInstance> AnimInstance;
 
 	// * 컨트롤러 포인터
 	UPROPERTY()
-	class ARLPlayerController* Controller;
+	TObjectPtr<class ARLPlayerController> Controller;
 
 	// * 무브먼트 타입
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
@@ -69,21 +69,21 @@ private:
 
 	// * Katana Montage Map
 	UPROPERTY(EditAnywhere,Category = "Montage|Katana")
-	TMap<FString, UAnimMontage*> KatanaMontageMap;
+	TMap<FString, TObjectPtr<UAnimMontage>> KatanaMontageMap;
 
 	// * 콤보 체크
 	int32 ComboCount;
 
 	// * 현재 Montage Ref
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-	UAnimMontage* CurrentMontage;
+	TObjectPtr<UAnimMontage> CurrentMontage;
 
 	// * 구르는 중인가?
 	bool bIsDodge;
 
 	// * Dodge Montage Map
 	UPROPERTY(EditAnywhere,Category = "Montage|Dodge")
-	TMap<FName, UAnimMontage*> DodgeMap;
+	TMap<FName, TObjectPtr<UAnimMontage>> DodgeMap;
 
 	// * Dodge 거리
 	UPROPERTY(EditAnywhere,Category = "Dodge")

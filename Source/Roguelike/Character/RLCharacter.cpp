@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "RLCharacter.h"
 
 #include "RLCharacterAnimInstance.h"
@@ -12,6 +9,7 @@
 #include "Roguelike/Components/CombatComponent.h"
 #include "MotionWarpingComponent.h"
 #include "Roguelike/Components/InventoryComponent.h"
+#include "Roguelike/Item/Item.h"
 
 // Sets default values
 ARLCharacter::ARLCharacter()
@@ -51,6 +49,11 @@ void ARLCharacter::PostInitializeComponents()
 		CombatComponent->AnimInstance = Cast<URLCharacterAnimInstance>(GetMesh()->GetAnimInstance());
 		CombatComponent->Controller = Cast<ARLPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(),0));
 	}
+}
+
+void ARLCharacter::InventoryInteract(const TObjectPtr<AItem> item)
+{
+	InventoryComponent->Items.Emplace(item);
 }
 
 void ARLCharacter::BeginPlay()

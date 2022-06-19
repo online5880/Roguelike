@@ -70,7 +70,7 @@ void UCombatComponent::KatanaAttack()
 	if(AnimInstance == nullptr && Character == nullptr) return;
 	
 	TArray<FString> MontageName;
-	for(const TPair<FString, UAnimMontage*>& Map : KatanaMontageMap)
+	for(const TPair<FString, TObjectPtr<UAnimMontage>>& Map : KatanaMontageMap)
 	{
 		MontageName.Emplace(Map.Key);
 	}

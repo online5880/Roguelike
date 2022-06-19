@@ -2,10 +2,11 @@
 
 
 #include "RLPlayerController.h"
-
 #include "RLCharacter.h"
+#include "Camera/CameraComponent.h"
 #include "Roguelike/Components/CombatComponent.h"
 #include "Roguelike/Components/InventoryComponent.h"
+#include "Roguelike/Item/Item.h"
 
 void ARLPlayerController::SetupInputComponent()
 {
@@ -19,6 +20,7 @@ void ARLPlayerController::SetupInputComponent()
 	InputComponent->BindAction(FName("Attack"),IE_Pressed,this,&ARLPlayerController::Attack);
 	InputComponent->BindAction(FName("Dodge"),IE_Pressed,this,&ARLPlayerController::Dodge);
 	InputComponent->BindAction(FName("Inventory"),IE_Pressed,this,&ARLPlayerController::Inventory);
+	InputComponent->BindAction(FName("Interact"),IE_Pressed,this,&ARLPlayerController::Interact);
 }
 
 void ARLPlayerController::BeginPlay()
@@ -101,4 +103,28 @@ void ARLPlayerController::Inventory()
 			InventoryComponent->Inventory();
 		}
 	}
+}
+
+void ARLPlayerController::Interact()
+{
+	/*const FVector CameraLoc(RLCharacter->GetFollowCamera().Get()->GetComponentLocation());
+	const FVector Start(CameraLoc);
+	const FVector End(Start + (RLCharacter->GetFollowCamera()->GetForwardVector() * 1000.f));
+
+	FHitResult HitResult;
+	GetWorld()->LineTraceSingleByChannel(
+		HitResult,
+		Start,
+		End,
+		ECC_Visibility);
+	
+	if(HitResult.bBlockingHit)
+	{
+		const TObjectPtr<IInteractInterface> InteractInterface = Cast<IInteractInterface>(HitResult.GetActor());
+		if(InteractInterface)
+		{
+			InteractInterface->Interact();
+		}
+	}
+	DrawDebugLine(GetWorld(),Start,End,FColor::Orange,false,5.f,0.f,1.f);*/
 }

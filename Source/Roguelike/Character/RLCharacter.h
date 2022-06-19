@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Roguelike/Interface/InventoryInterface.h"
 #include "RLCharacter.generated.h"
 
 UCLASS()
-class ROGUELIKE_API ARLCharacter : public ACharacter
+class ROGUELIKE_API ARLCharacter : public ACharacter, public IInventoryInterface
 {
 	GENERATED_BODY()
 
@@ -21,35 +22,41 @@ protected:
 	// * Component 초기화
 	virtual void PostInitializeComponents() override;
 
+	// * 인벤토리 상호작용 - Inventory Interface
+	virtual void InventoryInteract(const TObjectPtr<AItem> item) override;
+
 private:
 	// * SpringArm
 	UPROPERTY(VisibleAnywhere, Category = Camera)
-	class USpringArmComponent* CameraBoom;
+	TObjectPtr<class USpringArmComponent> CameraBoom;
 
 	// * Camera
 	UPROPERTY(VisibleAnywhere, Category = Camera)
-	class UCameraComponent* FollowCamera;
+	TObjectPtr<class UCameraComponent> FollowCamera;
 
 	// * Combat Component
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
-	class UCombatComponent* CombatComponent;
+	TObjectPtr<class UCombatComponent> CombatComponent;
 
 	// * MotionWarping Component
 	UPROPERTY(VisibleAnywhere, Category = Combat)
-	class UMotionWarpingComponent* MotionWarpingComponent;
+	TObjectPtr<class UMotionWarpingComponent> MotionWarpingComponent;
 
 	// * Inventory Component
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly, Category = Combat, meta = (AllowPrivateAccess = "true"))
-	class UInventoryComponent* InventoryComponent;
+	TObjectPtr<class UInventoryComponent> InventoryComponent;
 
 public:
+	// * Follow Camera Getter
+	FORCEINLINE TObjectPtr<UCameraComponent> GetFollowCamera() const {return FollowCamera;}
+	
 	// * Combat Component Getter
-	FORCEINLINE UCombatComponent* GetCombatComponent() const {return CombatComponent;}
+	FORCEINLINE TObjectPtr<UCombatComponent> GetCombatComponent() const {return CombatComponent;}
 
 	// * Inventory Component Getter
-	FORCEINLINE UInventoryComponent* GetInventoryComponent() const {return InventoryComponent;}
+	FORCEINLINE TObjectPtr<UInventoryComponent> GetInventoryComponent() const {return InventoryComponent;}
 
 	// * MotionWarping Component Getter
-	FORCEINLINE UMotionWarpingComponent* GetMotionWarpingComponent() const {return MotionWarpingComponent;}
+	FORCEINLINE TObjectPtr<UMotionWarpingComponent> GetMotionWarpingComponent() const {return MotionWarpingComponent;}
 
 };
